@@ -1,2 +1,0 @@
-# valerkakvafem — personal site
-
