@@ -416,72 +416,87 @@ nav a:first-letter {
 /* ==========================================================================
    6. ГАЛЕРЕЯ VRChat (Gallery - Градієнти замінено на фотографії!)
    ========================================================================== */
-.gallery-controls {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.filters {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.filter {
-  border: 1px solid var(--line);
-  background: #0b0b14;
-  color: #aaa0b4;
-  border-radius: 20px;
-  padding: 8px 12px;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 11px;
-}
-
-.gallery-category {
-  border: 1px solid var(--line);
-  background: #0b0b14;
-  color: var(--text);
-  border-radius: 999px;
-  padding: 8px 12px;
-  font: inherit;
-  font-size: 11px;
-}
-
-.upload-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #d77bea;
-  background: rgba(167, 79, 195, 0.18);
-  color: #fff;
-  border-radius: 999px;
-  padding: 8px 12px;
-  font-size: 11px;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.upload-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 0 18px rgba(215, 123, 234, 0.25);
-}
-
-.filter.active,
-.filter:hover {
-  color: #fff;
-  border-color: #d77bea;
-  background: #a84fc321;
-}
-
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
+.gallery-shell {
+  position: relative;
   margin-top: 17px;
+  overflow: hidden;
+}
+
+.gallery-shell::before,
+.gallery-shell::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 9%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gallery-shell::before {
+  left: 0;
+  background: linear-gradient(90deg, #0b0b14 0%, #0b0b14cc 35%, transparent 100%);
+}
+
+.gallery-shell::after {
+  right: 0;
+  background: linear-gradient(270deg, #0b0b14 0%, #0b0b14cc 35%, transparent 100%);
+}
+
+.gallery-shell.expanded::before,
+.gallery-shell.expanded::after {
+  display: none;
+}
+
+.gallery-marquee {
+  display: flex;
+  gap: 12px;
+  --scroll-distance: 0px;
+  width: max-content;
+  min-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 4px 0;
+  mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+  will-change: transform;
+  animation: marqueeScroll 70s linear infinite;
+}
+
+.gallery-marquee .gallery-item {
+  flex: 0 0 auto;
+}
+
+.gallery-marquee .fake-photo {
+  width: clamp(120px, 15vw, 180px);
+  min-width: clamp(120px, 15vw, 180px);
+}
+
+.gallery-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-1 * var(--scroll-distance)));
+  }
+}
+
+.gallery-all {
+  display: none;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.gallery-shell.expanded .gallery-marquee {
+  display: none;
+}
+
+.gallery-shell.expanded .gallery-all {
+  display: grid;
 }
 
 .gallery-item {
@@ -509,14 +524,17 @@ nav a:first-letter {
   box-shadow: 0 10px 35px #c65eff2b;
 }
 
-/* Підключення реальних файлів фото для галереї сайту */
-.photo1 { background-image: url('assets/gallery/photo1.png'); }
-.photo2 { background-image: url('assets/gallery/photo2.png'); }
-.photo3 { background-image: url('assets/gallery/photo3.jpg'); }
-.photo4 { background-image: url('assets/gallery/photo4.jpg'); }
-.photo5 { background-image: url('assets/gallery/photo5.jpg'); }
-.photo6 { background-image: url('assets/gallery/photo6.jpg'); }
-
+.gallery-expand-btn {
+  margin-top: 14px;
+  border: 1px solid #d77bea;
+  background: rgba(167, 79, 195, 0.18);
+  color: #fff;
+  border-radius: 999px;
+  padding: 9px 16px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
 
 /* ==========================================================================
    7. СТОЛБЦІ, ПРОЄКТИ ТА АУДІО (Projects & Media)
@@ -640,6 +658,8 @@ nav a:first-letter {
 
 .social > span { 
   font-size: 12px; 
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .social small { 
@@ -784,11 +804,147 @@ footer {
     grid-column: 1 / -1;
   }
   
-  .gallery {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
   .two-col {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 16px 12px;
+  }
+
+  .brand {
+    font-size: 14px;
+    display: block;
+    text-align: left;
+    padding-bottom: 14px;
+  }
+
+  .brand-cat {
+    font-size: inherit;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  nav a {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 110px;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  nav a span {
+    display: inline !important;
+  }
+
+  main {
+    margin-left: 0;
+  }
+
+  .section {
+    padding: 18px 14px;
+  }
+
+  .hero {
+    min-height: auto;
+    padding-top: 18px;
+  }
+
+  .hero-art {
+    height: 260px;
+  }
+
+  .panel {
+    padding: 14px;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 10vw, 46px);
+  }
+
+  .lead {
+    font-size: 15px;
+  }
+
+  .buttons {
+    gap: 10px;
+  }
+
+  .btn {
+    flex: 1 1 calc(50% - 10px);
+    text-align: center;
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .avatar-project {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-all {
+    grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+    gap: 8px;
+  }
+
+  .gallery-marquee .fake-photo {
+    width: 120px;
+    min-width: 120px;
+  }
+
+  .fake-avatar {
+    height: 180px;
+  }
+
+  footer {
+    flex-direction: column;
+    gap: 8px;
+    padding: 18px 14px 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand {
+    font-size: 13px;
+  }
+
+  nav a {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 0;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+
+  .gallery-expand-btn {
+    width: 100%;
+  }
+
+  .lightbox {
+    padding: 16px;
+  }
+
+  .lightbox-nav {
+    gap: 8px;
   }
 }
