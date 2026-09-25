@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>valerkakvafem ♡</title>
-  <meta name="description" content="Особистий VRChat / Unity / electronics сайт Валерія.">
-  <link rel="stylesheet" href="style.css?v=2026-09-24-v3">
+  <meta name="description" content="Особистий VRChat / Unity / electronics сайт valerkakvafem.">
+  <link rel="stylesheet" href="style.css?v=2026-09-24-v3" type="text/css">
 </head>
 <body>
   <div class="bg-orb orb1"></div>
@@ -13,9 +13,15 @@
 
   <aside class="sidebar">
     <a class="brand" href="#home"><span class="brand-cat">ฅ^•ﻌ•^ฅ</span> valerkakvafem <span>♥</span></a>
-    <div class="lang-switch" aria-label="Language switcher">
+    <div class="lang-switch" role="group" aria-label="Language switcher">
       <button class="lang-btn active" type="button" data-lang="uk">UA</button>
       <button class="lang-btn" type="button" data-lang="en">EN</button>
+    </div>
+    <div class="sakura-toggle" role="group" aria-label="Sakura animation toggle">
+      <span class="toggle-label">Sakura</span>
+      <button class="sakura-switch" id="sakuraToggle" type="button" aria-label="Toggle sakura animation" aria-pressed="true">
+        <span class="switch-track"><span class="switch-thumb"></span></span>
+      </button>
     </div>
     <nav>
       <a class="active" href="#home">⌂ <span data-i18n="nav.home">Головна</span></a>
@@ -32,33 +38,33 @@
   <main>
     <section id="home" class="hero section">
       <div class="hero-art">
-        <div class="avatar-placeholder" aria-label="Avatar">ฅ^•ﻌ•^ฅ</div>
+        <div class="avatar-placeholder" role="img" aria-label="Avatar">ฅ^•ﻌ•^ฅ</div>
         <div class="floating-heart h1">♥</div>
         <div class="floating-heart h2">♡</div>
       </div>
       <div class="hero-copy">
-        <div class="eyebrow" data-i18n="hero.eyebrow">femboy • VRChat • Unity • electronics</div>
+        <div class="eyebrow" data-i18n="hero.eyebrow">VRChat • Unity • electronics</div>
         <h1>valerkakvafem <span>♡</span></h1>
-        <p class="lead" data-i18n="hero.lead">Привіт! Я Валерій, 17-річний студент, який любить VRChat, аватарки, комп'ютери та електроніку :3</p>
+        <p class="lead" data-i18n="hero.lead">Привіт! Я ValerkaKVA, 17-річний студент, який любить VRChat, аватарки, комп'ютери та електроніку :3</p>
         <p class="muted" data-i18n="hero.muted">Тут можна дізнатися більше про мене, подивитися мої VRChat-фото, проєкти та кастомні аватари.</p>
         <div class="buttons">
           <a class="btn" href="https://vrchat.com/home/user/usr_546417ab-8300-4fd6-845b-32ec0ba9909e" target="_blank" data-i18n="hero.vrchat">◈ VRChat</a>
-          <a class="btn" href="https://discord.com/" target="_blank" rel="noreferrer" data-i18n="hero.discord">Discord</a>
           <a class="btn" href="https://github.com/valerkakvafem" target="_blank" rel="noreferrer" data-i18n="hero.github">GitHub ↗</a>
-          <a class="btn" href="https://t.me/vkvaua" data-i18n="hero.telegram">Telegram</a>
+          <a class="btn" href="https://t.me/vkvaua" data-i18n="hero.telegram">Мій Telegram канал</a>
         </div>
       </div>
       <div class="hero-doodle">good<br>boys<br>play<br>VRChat<br>:3<br>♡</div>
     </section>
 
-    <section id="about" class="section about-grid">
+    <section id="about" class="section about-grid" aria-labelledby="about-heading">
+      <h2 id="about-heading" class="visually-hidden">Про мене</h2>
       <div class="photo-card">
-        <div class="avatar-placeholder big">ฅ^•ﻌ•^ฅ</div>
+        <div class="avatar-placeholder big" role="img" aria-label="Avatar">ฅ^•ﻌ•^ฅ</div>
         <span class="vertical-note" data-i18n="about.note">silly cat<br>learning how<br>computers<br>work :3</span>
       </div>
       <div class="panel about-text">
         <div class="section-title"><span>♡</span> <span data-i18n="about.title">Про мене</span></div>
-        <p data-i18n="about.text">Я Валерій, мені 17 років. Я фембой, люблю VRChat, технології, електроніку, програмування та все, що пов'язано з комп'ютерами.</p>
+        <p data-i18n="about.text">Я ValerkaKVA, мені 17 років. Люблю VRChat, технології, електроніку, програмування та все, що пов'язано з комп'ютерами.</p>
         <ul class="facts">
           <li data-i18n="about.fact1">◈ VRChat — кілька років</li>
           <li data-i18n="about.fact2">◇ Unity / Blender — створення та кастомізація аватарів</li>
@@ -76,7 +82,8 @@
       </div>
     </section>
 
-    <section id="gallery" class="section panel">
+    <section id="gallery" class="section panel" aria-labelledby="gallery-heading">
+      <h2 id="gallery-heading" class="visually-hidden">Галерея VRChat</h2>
       <div class="section-head">
         <div>
           <div class="section-title"><span>VR</span> <span data-i18n="gallery.title">Галерея VRChat</span></div>
@@ -94,12 +101,12 @@
 
     <section class="section two-col">
       <div id="avatars" class="panel">
-        <div class="section-title"><span>♢</span> <span data-i18n="avatars.title">Мої аватари</span></div>
-        <p class="muted" data-i18n="avatars.subtitle">Аватари, над якими я працював або які кастомізував.</p>
+        <div class="section-title"><span>♢</span> <span data-i18n="avatars.title">Мій аватар</span></div>
+        <p class="muted" data-i18n="avatars.subtitle">Аватар, над яким я працюю і покращую його.</p>
         <div class="avatar-project">
-          <div class="fake-avatar">Manuka<br>♡</div>
+          <div class="fake-avatar"></div>
           <div>
-            <h3 data-i18n="avatars.name">Manuka</h3>
+            <h2 data-i18n="avatars.name">Manuka</h2>
             <p data-i18n="avatars.customAvatar">Custom Avatar</p>
             <div class="tags"><span>Unity</span><span>Blender</span><span>PhysBones</span><span>PC / Quest</span></div>
             <a class="outline-btn" href="#gallery" data-i18n="avatars.galleryLink">Переглянути галерею →</a>
@@ -112,30 +119,28 @@
         <p class="muted" data-i18n="projects.subtitle">Мої розробки та цікаві ідеї.</p>
         <div class="project-list">
           <div><b>◈ VRChat Avatars</b><small data-i18n="projects.item1">Кастомізація та створення аватарів</small></div>
-          <div><b>◇ SlimeVR</b><small data-i18n="projects.item2">Система повного трекінгу тіла</small></div>
-          <div><b>▣ Arduino / CNC</b><small data-i18n="projects.item3">Плоттер з DVD-приводів</small></div>
-          <div><b>3D Print</b><small data-i18n="projects.item4">Моделі та прототипи</small></div>
           <div><b>GitHub</b><small data-i18n="projects.item5">Мої репозиторії та код</small></div>
         </div>
       </div>
     </section>
 
-    <section id="music" class="section two-col">
+    <section id="music" class="section two-col" aria-labelledby="music-heading">
+      <h2 id="music-heading" class="visually-hidden">Моя музика</h2>
       <div class="panel">
         <div class="section-title"><span>♫</span> <span data-i18n="music.title">Моя музика</span></div>
-        <div class="track playing"><span>01</span><b>Machine Girl — Ghost</b><time>2:32</time></div>
-        <div class="track"><span>02</span><b>deadmau5 — Strobe</b><time>10:35</time></div>
-        <div class="track"><span>03</span><b>tōby fox — Megalovania</b><time>2:37</time></div>
-        <div class="track"><span>04</span><b>Kordhell — Murder In My Mind</b><time>2:03</time></div>
+        <div class="track playing"><span>01</span><b>MARLBORO CLUB — PXRKX</b><time datetime="PT1M48S">1:48</time><a href="https://music.youtube.com/watch?v=__btnUgnhGw&list=RDAMVM__btnUgnhGw" target="_blank" rel="noreferrer">YouTube Music</a></div>
+        <div class="track"><span>02</span><b>poster boy — 2hollis</b><time datetime="PT2M02S">2:02</time><a href="https://music.youtube.com/watch?v=jOLT6ukrQSg" target="_blank" rel="noreferrer">YouTube Music</a></div>
+        <div class="track"><span>03</span><b>COSMO — nashi x MC Fluup</b><time datetime="PT2M06S">2:06</time><a href="https://music.youtube.com/watch?v=oZrpyzO8zuI" target="_blank" rel="noreferrer">YouTube Music</a></div>
+        <div class="track"><span>04</span><b>S3X DRIVERAVE — S3X</b><time datetime="PT1M59S">1:59</time><a href="https://music.youtube.com/watch?v=iiyesnIfBGI" target="_blank" rel="noreferrer">YouTube Music</a></div>
+        <div class="track"><span>05</span><b>HYSTERIA! ZØMB • HYSTERIA!</b><time datetime="PT1M37S">1:37</time><a href="https://music.youtube.com/watch?v=i3v-xXym9t4" target="_blank" rel="noreferrer">YouTube Music</a></div>
       </div>
 
       <div id="contacts" class="panel">
         <div class="section-title"><span>♡</span> <span data-i18n="contacts.title">Соцмережі</span></div>
         <div class="socials">
           <a href="https://vrchat.com/home/user/usr_546417ab-8300-4fd6-845b-32ec0ba9909e" target="_blank" class="social">◈ <span>VRChat</span><small data-i18n="contacts.vrchat">мій профіль</small></a>
-          <a href="https://discord.com/" target="_blank" rel="noreferrer" class="social">◉ <span>Discord</span><small data-i18n="contacts.discord">додати мене</small></a>
           <a href="https://github.com/valerkakvafem" target="_blank" rel="noreferrer" class="social">⌘ <span>GitHub</span><small data-i18n="contacts.github">проєкти та код</small></a>
-          <a href="https://t.me/vkvaua" class="social">➤ <span>Telegram</span><small data-i18n="contacts.telegram">написати мені</small></a>
+          <a href="https://t.me/vkvaua" class="social">➤ <span>Telegram</span><small data-i18n="contacts.telegram">мій телеграм канал</small></a>
         </div>
       </div>
     </section>
