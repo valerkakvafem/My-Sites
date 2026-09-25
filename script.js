@@ -7,16 +7,15 @@ const translations = {
     "nav.projects": "Проекти",
     "nav.music": "Музика",
     "nav.contacts": "Контакти",
-    "hero.eyebrow": "femboy • VRChat • Unity • electronics",
-    "hero.lead": "Привіт! Я Валерій, 17-річний студент, який любить VRChat, аватарки, комп'ютери та електроніку :3",
+    "hero.eyebrow": "VRChat • Unity • electronics",
+    "hero.lead": "Привіт! Я ValerkaKVA, 17-річний студент, який любить VRChat, аватарки, комп'ютери та електроніку :3",
     "hero.muted": "Тут можна дізнатися більше про мене, подивитися мої VRChat-фото, проєкти та кастомні аватари.",
-    "hero.telegram": "Telegram",
+    "hero.telegram": "Мій Telegram канал",
     "hero.vrchat": "◈ VRChat",
-    "hero.discord": "Discord",
     "hero.github": "GitHub ↗",
     "side.note": "нюня~<br>♡",
     "about.title": "Про мене",
-    "about.text": "Я Валерій, мені 17 років. Я фембой, люблю VRChat, технології, електроніку, програмування та все, що пов'язано з комп'ютерами.",
+    "about.text": "Я ValerkaKVA, мені 17 років. Люблю VRChat, технології, електроніку, програмування та все, що пов'язано з комп'ютерами.",
     "about.fact1": "◈ VRChat — кілька років",
     "about.fact2": "◇ Unity / Blender — створення та кастомізація аватарів",
     "about.fact3": "⚡ Електроніка / пайка",
@@ -34,8 +33,8 @@ const translations = {
     "gallery.expand": "Показати всі фото",
     "gallery.collapse": "Сховати всі фото",
     "about.note": "смішна киця<br>вчиться як<br>працюють<br>комп'ютери :3",
-    "avatars.title": "Мої аватари",
-    "avatars.subtitle": "Аватари, над якими я працював або які кастомізував.",
+    "avatars.title": "Мій аватар",
+    "avatars.subtitle": "Аватар, над яким я працюю і покращую його.",
     "avatars.name": "Manuka<br>♡",
     "avatars.customAvatar": "Custom Avatar",
     "avatars.galleryLink": "Переглянути галерею →",
@@ -49,9 +48,8 @@ const translations = {
     "music.title": "Моя музика",
     "contacts.title": "Соцмережі",
     "contacts.vrchat": "мій профіль",
-    "contacts.discord": "додати мене",
     "contacts.github": "проєкти та код",
-    "contacts.telegram": "написати мені",
+    "contacts.telegram": "мій телеграм канал",
     "footer.text": "Зроблено з любов'ю • HTML • CSS • JS"
   },
   en: {
@@ -62,16 +60,15 @@ const translations = {
     "nav.projects": "Projects",
     "nav.music": "Music",
     "nav.contacts": "Contacts",
-    "hero.eyebrow": "femboy • VRChat • Unity • electronics",
-    "hero.lead": "Hi! I'm Valerii, a 17-year-old student who loves VRChat, avatars, computers, and electronics :3",
+    "hero.eyebrow": "VRChat • Unity • electronics",
+    "hero.lead": "Hi! I'm ValerkaKVA, a 17-year-old student who loves VRChat, avatars, computers, and electronics :3",
     "hero.muted": "Here you can learn more about me, view my VRChat photos, projects, and custom avatars.",
-    "hero.telegram": "Telegram",
+    "hero.telegram": "My Telegram channel",
     "hero.vrchat": "◈ VRChat",
-    "hero.discord": "Discord",
     "hero.github": "GitHub ↗",
     "side.note": "nya~<br>♡",
     "about.title": "About me",
-    "about.text": "I'm Valerii, I'm 17 years old. I'm a femboy, I love VRChat, technology, electronics, programming, and everything related to computers.",
+    "about.text": "I'm ValerkaKVA, I'm 17 years old. I love VRChat, technology, electronics, programming, and everything related to computers.",
     "about.fact1": "◈ VRChat — several years",
     "about.fact2": "◇ Unity / Blender — creating and customizing avatars",
     "about.fact3": "⚡ Electronics / soldering",
@@ -89,8 +86,8 @@ const translations = {
     "gallery.expand": "Show all photos",
     "gallery.collapse": "Hide all photos",
     "about.note": "silly cat<br>learning how<br>computers<br>work :3",
-    "avatars.title": "My avatars",
-    "avatars.subtitle": "Avatars I worked on or customized.",
+    "avatars.title": "My avatar",
+    "avatars.subtitle": "The avatar I’m working on and improving.",
     "avatars.name": "Manuka<br>♡",
     "avatars.customAvatar": "Custom Avatar",
     "avatars.galleryLink": "View gallery →",
@@ -104,9 +101,8 @@ const translations = {
     "music.title": "My music",
     "contacts.title": "Socials",
     "contacts.vrchat": "my profile",
-    "contacts.discord": "add me",
     "contacts.github": "projects and code",
-    "contacts.telegram": "message me",
+    "contacts.telegram": "my telegram channel",
     "footer.text": "Made with love • HTML • CSS • JS"
   }
 };
@@ -116,18 +112,83 @@ const galleryMarquee = document.getElementById("galleryMarquee");
 const galleryExpandBtn = document.getElementById("galleryExpandBtn");
 const galleryShell = document.getElementById("galleryShell");
 const langButtons = document.querySelectorAll(".lang-btn");
+const sakuraToggle = document.getElementById("sakuraToggle");
+
+function createSakuraLayer() {
+  const layer = document.createElement("div");
+  layer.className = "sakura-layer";
+  layer.setAttribute("aria-hidden", "true");
+
+  const petalCount = 22;
+  for (let i = 0; i < petalCount; i++) {
+    const petal = document.createElement("span");
+    petal.className = "sakura-petal";
+
+    const size = (Math.random() * 12 + 10).toFixed(2);
+    const duration = (Math.random() * 10 + 10).toFixed(2);
+    const delay = (Math.random() * -12).toFixed(2);
+    const drift = (Math.random() * 70 - 35).toFixed(2);
+    const driftEnd = (Math.random() * 70 - 35).toFixed(2);
+
+    petal.style.setProperty("--size", `${size}px`);
+    petal.style.setProperty("--duration", `${duration}s`);
+    petal.style.setProperty("--delay", `${delay}s`);
+    petal.style.setProperty("--left", `${(Math.random() * 100).toFixed(2)}%`);
+    petal.style.setProperty("--drift", `${drift}px`);
+    petal.style.setProperty("--drift-end", `${driftEnd}px`);
+
+    layer.appendChild(petal);
+  }
+
+  document.body.appendChild(layer);
+  return layer;
+}
+
+let sakuraEnabled = true;
+
+function setSakuraState(enabled) {
+  sakuraEnabled = enabled;
+  document.body.classList.toggle("sakura-off", !enabled);
+
+  if (sakuraToggle) {
+    sakuraToggle.setAttribute("aria-pressed", String(enabled));
+  }
+
+  const petals = document.querySelectorAll(".sakura-petal");
+  petals.forEach(petal => {
+    petal.style.animationPlayState = enabled ? "running" : "paused";
+  });
+}
+
+if (sakuraToggle) {
+  sakuraToggle.addEventListener("click", () => setSakuraState(!sakuraEnabled));
+}
+
+createSakuraLayer();
+setSakuraState(true);
 
 const defaultGalleryEntries = Array.isArray(window.galleryData) && window.galleryData.length
   ? window.galleryData
   : [
-      { src: "assets/gallery/photo1.png", title: "Мій аватар", type: "photo" },
-      { src: "assets/gallery/photo2.png", title: "З друзями", type: "friends" },
-      { src: "assets/gallery/photo3.png", title: "Нічний світ", type: "world" },
-      { src: "assets/gallery/photo5.png", title: "Фіолетовий світ", type: "world" },
-      { src: "assets/gallery/photo6.png", title: "Разом", type: "friends" }
+      { src: "assets/gallery/photo1.webp", title: "Мій аватар", type: "photo" },
+      { src: "assets/gallery/photo2.webp", title: "З друзями", type: "friends" },
+      { src: "assets/gallery/photo3.webp", title: "Нічний світ", type: "world" },
+      { src: "assets/gallery/photo5.webp", title: "Фіолетовий світ", type: "world" },
+      { src: "assets/gallery/photo6.webp", title: "Разом", type: "friends" }
     ];
 
 let galleryEntries = [...defaultGalleryEntries];
+
+function shuffleArray(items) {
+  const shuffled = [...items];
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
 
 function buildGalleryCard(item, index, className = "gallery-item") {
   const button = document.createElement("button");
@@ -148,9 +209,11 @@ function buildGalleryCard(item, index, className = "gallery-item") {
 }
 
 function renderGallery(items = galleryEntries) {
+  const randomizedItems = shuffleArray(items);
+
   if (galleryMarquee) {
     galleryMarquee.innerHTML = "";
-    const repeatedItems = [...items, ...items];
+    const repeatedItems = [...randomizedItems, ...randomizedItems];
     repeatedItems.forEach((item, index) => {
       galleryMarquee.appendChild(buildGalleryCard(item, index, "gallery-item marquee-item"));
     });
@@ -163,7 +226,7 @@ function renderGallery(items = galleryEntries) {
 
   if (galleryGrid) {
     galleryGrid.innerHTML = "";
-    items.forEach((item, index) => {
+    randomizedItems.forEach((item, index) => {
       galleryGrid.appendChild(buildGalleryCard(item, index, "gallery-item full-item"));
     });
   }
