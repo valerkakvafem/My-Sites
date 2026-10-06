@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>valerkakvafem ♡</title>
-  <meta name="description" content="Особистий VRChat / Unity / electronics сайт valerkakvafem.">
-  <link rel="stylesheet" href="style.css?v=2026-09-24-v3" type="text/css">
+  <title>valerkakvafem • Halloween</title>
+  <meta name="description" content="Halloween-версія особистого VRChat / Unity / electronics сайту valerkakvafem.">
+  <link rel="stylesheet" href="style.css?v=2026-10-07-audio" type="text/css">
 </head>
 <body>
   <div class="bg-orb orb1"></div>
   <div class="bg-orb orb2"></div>
 
   <aside class="sidebar">
-    <a class="brand" href="#home"><span class="brand-cat">ฅ^•ﻌ•^ฅ</span> valerkakvafem <span>♥</span></a>
+    <a class="brand" href="#home"><span class="brand-cat">✦</span> valerkakvafem <span>🎃</span></a>
     <div class="lang-switch" role="group" aria-label="Language switcher">
       <button class="lang-btn active" type="button" data-lang="uk">UA</button>
       <button class="lang-btn" type="button" data-lang="en">EN</button>
     </div>
-    <div class="sakura-toggle" role="group" aria-label="Sakura animation toggle">
-      <span class="toggle-label">Sakura</span>
-      <button class="sakura-switch" id="sakuraToggle" type="button" aria-label="Toggle sakura animation" aria-pressed="true">
+    <div class="sakura-toggle" role="group" aria-label="Halloween animation toggle">
+      <span class="toggle-label">Halloween</span>
+      <button class="sakura-switch" id="sakuraToggle" type="button" aria-label="Toggle Halloween animation" aria-pressed="true">
         <span class="switch-track"><span class="switch-thumb"></span></span>
       </button>
     </div>
@@ -32,7 +32,7 @@
       <a href="#music">♫ <span data-i18n="nav.music">Музика</span></a>
       <a href="#contacts">◎ <span data-i18n="nav.contacts">Контакти</span></a>
     </nav>
-    <div class="side-note" data-i18n="side.note">нюня~<br>♡</div>
+    <div class="side-note" data-i18n="side.note">boo!<br>👻</div>
   </aside>
 
   <main>
@@ -43,17 +43,18 @@
         <div class="floating-heart h2">♡</div>
       </div>
       <div class="hero-copy">
-        <div class="eyebrow" data-i18n="hero.eyebrow">VRChat • Unity • electronics</div>
-        <h1>valerkakvafem <span>♡</span></h1>
-        <p class="lead" data-i18n="hero.lead">Привіт! Я ValerkaKVA, 17-річний студент, який любить VRChat, аватарки, комп'ютери та електроніку :3</p>
-        <p class="muted" data-i18n="hero.muted">Тут можна дізнатися більше про мене, подивитися мої VRChat-фото, проєкти та кастомні аватари.</p>
+        <div class="eyebrow" data-i18n="hero.eyebrow">🎃 Halloween • VRChat • Unity • electronics</div>
+        <div class="hero-badge">HALLOWEEN EDITION</div>
+        <h1>valerkakvafem <span>🎃</span></h1>
+        <p class="lead" data-i18n="hero.lead">Привіт! Я ValerkaKVA, 17-річний студент, який любить VRChat, аватарки, комп'ютери, електроніку і осінній магічний вайб :3</p>
+        <p class="muted" data-i18n="hero.muted">Тут можна дізнатися більше про мене, подивитися мої VRChat-фото, проєкти та кастомні аватари в атмосфері Хеллоуїна.</p>
         <div class="buttons">
-          <a class="btn" href="https://vrchat.com/home/user/usr_546417ab-8300-4fd6-845b-32ec0ba9909e" target="_blank" data-i18n="hero.vrchat">◈ VRChat</a>
-          <a class="btn" href="https://github.com/valerkakvafem" target="_blank" rel="noreferrer" data-i18n="hero.github">GitHub ↗</a>
-          <a class="btn" href="https://t.me/vkvaua" data-i18n="hero.telegram">Мій Telegram канал</a>
+          <a class="btn" href="https://vrchat.com/home/user/usr_546417ab-8300-4fd6-845b-32ec0ba9909e" target="_blank" data-i18n="hero.vrchat">🕸️ VRChat</a>
+          <a class="btn" href="https://github.com/valerkakvafem" target="_blank" rel="noreferrer" data-i18n="hero.github">☠ GitHub ↗</a>
+          <a class="btn" href="https://t.me/vkvaua" data-i18n="hero.telegram">👻 Telegram</a>
         </div>
       </div>
-      <div class="hero-doodle">good<br>boys<br>play<br>VRChat<br>:3<br>♡</div>
+      <div class="hero-doodle">spooky<br>vibes<br>for<br>VRChat<br>:3<br>🎃</div>
     </section>
 
     <section id="about" class="section about-grid" aria-labelledby="about-heading">
@@ -128,6 +129,13 @@
       <h2 id="music-heading" class="visually-hidden">Моя музика</h2>
       <div class="panel">
         <div class="section-title"><span>♫</span> <span data-i18n="music.title">Моя музика</span></div>
+        <div class="music-audio-toggle" role="group" aria-label="Background music">
+          <span class="toggle-label" data-i18n="music.background">Фонова музика</span>
+          <button class="sakura-switch" id="musicToggle" type="button" aria-label="Увімкнути фонову музику" aria-pressed="false">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+          </button>
+        </div>
+        <audio id="backgroundMusic" src="assets/audio/halloween-creepy.mp3" autoplay loop preload="auto"></audio>
         <div class="track playing"><span>01</span><b>MARLBORO CLUB — PXRKX</b><time datetime="PT1M48S">1:48</time><a href="https://music.youtube.com/watch?v=__btnUgnhGw&list=RDAMVM__btnUgnhGw" target="_blank" rel="noreferrer">YouTube Music</a></div>
         <div class="track"><span>02</span><b>poster boy — 2hollis</b><time datetime="PT2M02S">2:02</time><a href="https://music.youtube.com/watch?v=jOLT6ukrQSg" target="_blank" rel="noreferrer">YouTube Music</a></div>
         <div class="track"><span>03</span><b>COSMO — nashi x MC Fluup</b><time datetime="PT2M06S">2:06</time><a href="https://music.youtube.com/watch?v=oZrpyzO8zuI" target="_blank" rel="noreferrer">YouTube Music</a></div>
@@ -163,7 +171,7 @@
     </div>
   </div>
 
-  <script src="gallery-data.js?v=2026-09-24-v3"></script>
-  <script src="script.js?v=2026-09-24-v3"></script>
+  <script src="gallery-data.js?v=2026-10-07-clock"></script>
+  <script src="script.js?v=2026-10-07-audio"></script>
 </body>
 </html>
