@@ -46,11 +46,19 @@ const translations = {
     "projects.item4": "Моделі та прототипи",
     "projects.item5": "Мої репозиторії та код",
     "music.title": "Моя музика",
+    "music.background": "Фонова музика",
+    "music.toggleOn": "Увімкнути фонову музику",
+    "music.toggleOff": "Вимкнути фонову музику",
     "contacts.title": "Соцмережі",
     "contacts.vrchat": "мій профіль",
     "contacts.github": "проєкти та код",
     "contacts.telegram": "мій телеграм канал",
-    "footer.text": "Зроблено з любов'ю • HTML • CSS • JS"
+    "footer.text": "Зроблено з любов'ю • HTML • CSS • JS",
+    "clock.label": "ДО ГЕЛОВІНУ",
+    "clock.days": "д",
+    "clock.hours": "г",
+    "clock.minutes": "х",
+    "clock.seconds": "с"
   },
   en: {
     "nav.home": "Home",
@@ -99,11 +107,19 @@ const translations = {
     "projects.item4": "Prototype models",
     "projects.item5": "My repositories and code",
     "music.title": "My music",
+    "music.background": "Background music",
+    "music.toggleOn": "Turn background music on",
+    "music.toggleOff": "Turn background music off",
     "contacts.title": "Socials",
     "contacts.vrchat": "my profile",
     "contacts.github": "projects and code",
     "contacts.telegram": "my telegram channel",
-    "footer.text": "Made with love • HTML • CSS • JS"
+    "footer.text": "Made with love • HTML • CSS • JS",
+    "clock.label": "UNTIL HALLOWEEN",
+    "clock.days": "d",
+    "clock.hours": "h",
+    "clock.minutes": "m",
+    "clock.seconds": "s"
   }
 };
 
@@ -113,24 +129,264 @@ const galleryExpandBtn = document.getElementById("galleryExpandBtn");
 const galleryShell = document.getElementById("galleryShell");
 const langButtons = document.querySelectorAll(".lang-btn");
 const sakuraToggle = document.getElementById("sakuraToggle");
+const backgroundMusic = document.getElementById("backgroundMusic");
+const musicToggle = document.getElementById("musicToggle");
+
+function createBloodLayer() {
+  const canvas = document.createElement("canvas");
+  canvas.className = "blood-layer";
+  canvas.setAttribute("aria-hidden", "true");
+  document.body.appendChild(canvas);
+
+  const context = canvas.getContext("2d");
+  if (!context) return;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const droplets = Array.from({ length: 14 }, () => ({
+    x: 0,
+    y: 0,
+    speed: 0,
+    velocityX: 0,
+    drift: 0,
+    phase: 0,
+    age: 0,
+    radius: 0,
+    trailClock: 0,
+    trail: []
+  }));
+  const streams = Array.from({ length: 8 }, () => ({
+    anchorX: 0,
+    startY: 0,
+    tipY: 0,
+    speed: 0,
+    drift: 0,
+    phase: 0,
+    age: 0,
+    width: 0,
+    radius: 0
+  }));
+  let width = 0;
+  let height = 0;
+  let animationFrame = 0;
+  let previousTime = 0;
+
+  function resetDroplet(drop, scatter = false) {
+    drop.x = Math.random() * width;
+    drop.y = scatter ? Math.random() * height : -Math.random() * height * 0.35 - 12;
+    drop.speed = 45 + Math.random() * 95;
+    drop.velocityX = 0;
+    drop.drift = (Math.random() - 0.5) * 55;
+    drop.phase = Math.random() * Math.PI * 2;
+    drop.age = Math.random() * 8;
+    drop.radius = 2 + Math.random() * 3.2;
+    drop.trailClock = 0;
+    drop.trail = [{ x: drop.x, y: drop.y }];
+  }
+
+  function resetStream(stream) {
+    stream.anchorX = Math.random() * width;
+    stream.startY = Math.random() * height * 0.12;
+    stream.tipY = stream.startY + Math.random() * Math.min(height * 0.16, 130);
+    stream.speed = 18 + Math.random() * 38;
+    stream.drift = 4 + Math.random() * 19;
+    stream.phase = Math.random() * Math.PI * 2;
+    stream.age = Math.random() * 8;
+    stream.width = 2 + Math.random() * 4.5;
+    stream.radius = 3 + Math.random() * 4;
+  }
+
+  function draw() {
+    context.clearRect(0, 0, width, height);
+
+    streams.forEach(stream => {
+      const segmentCount = Math.max(2, Math.ceil((stream.tipY - stream.startY) / 10));
+      const points = [];
+      for (let i = 0; i <= segmentCount; i++) {
+        const progress = i / segmentCount;
+        const y = stream.startY + (stream.tipY - stream.startY) * progress;
+        const sway = Math.sin((y - stream.startY) * 0.022 + stream.phase + stream.age * 0.12) * stream.drift;
+        points.push({ x: stream.anchorX + sway, y });
+      }
+
+      context.beginPath();
+      context.moveTo(points[0].x, points[0].y);
+      points.slice(1).forEach(point => context.lineTo(point.x, point.y));
+      context.lineCap = "round";
+      context.lineJoin = "round";
+      context.globalAlpha = 0.74;
+      context.strokeStyle = "#26040a";
+      context.lineWidth = stream.width + 3;
+      context.shadowColor = "rgba(73, 2, 14, 0.55)";
+      context.shadowBlur = 9;
+      context.stroke();
+      context.globalAlpha = 0.82;
+      context.strokeStyle = "#590914";
+      context.lineWidth = stream.width;
+      context.stroke();
+      context.shadowBlur = 0;
+
+      const tip = points[points.length - 1];
+      context.globalAlpha = 0.9;
+      context.fillStyle = "#690a18";
+      context.beginPath();
+      context.ellipse(tip.x, tip.y + stream.radius * 0.45, stream.radius * 0.72, stream.radius * 1.35, 0, 0, Math.PI * 2);
+      context.fill();
+    });
+
+    droplets.forEach(drop => {
+      const trailLength = drop.trail.length;
+      for (let i = 1; i < trailLength; i++) {
+        const previous = drop.trail[i - 1];
+        const point = drop.trail[i];
+        const fade = i / trailLength;
+        context.globalAlpha = fade * 0.76;
+        context.strokeStyle = "#4a0712";
+        context.lineWidth = drop.radius * (0.55 + fade * 0.9);
+        context.lineCap = "round";
+        context.beginPath();
+        context.moveTo(previous.x, previous.y);
+        context.lineTo(point.x, point.y);
+        context.stroke();
+      }
+
+      context.globalAlpha = 0.9;
+      context.fillStyle = "#650918";
+      context.shadowColor = "rgba(116, 5, 20, 0.55)";
+      context.shadowBlur = 10;
+      context.beginPath();
+      context.ellipse(drop.x, drop.y, drop.radius, drop.radius * 1.35, 0, 0, Math.PI * 2);
+      context.fill();
+      context.shadowBlur = 0;
+    });
+
+    context.globalAlpha = 1;
+  }
+
+  function resizeCanvas() {
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    droplets.forEach(drop => resetDroplet(drop, true));
+    streams.forEach(resetStream);
+    draw();
+  }
+
+  function animate(timestamp) {
+    if (document.hidden || prefersReducedMotion.matches) {
+      animationFrame = 0;
+      return;
+    }
+
+    const delta = previousTime ? Math.min((timestamp - previousTime) / 1000, 0.04) : 0;
+    previousTime = timestamp;
+
+    droplets.forEach(drop => {
+      drop.age += delta;
+      drop.speed = Math.min(drop.speed + 34 * delta, 155);
+      const targetVelocityX = Math.sin(drop.age * 1.35 + drop.phase) * drop.drift;
+      drop.velocityX += (targetVelocityX - drop.velocityX) * Math.min(delta * 1.8, 1);
+      drop.x += drop.velocityX * delta;
+      drop.y += drop.speed * delta;
+
+      if (drop.x < 0 || drop.x > width) {
+        drop.drift *= -1;
+        drop.x = Math.max(0, Math.min(width, drop.x));
+      }
+
+      drop.trailClock += delta;
+      if (drop.trailClock >= 0.045) {
+        drop.trail.push({ x: drop.x, y: drop.y });
+        if (drop.trail.length > 26) drop.trail.shift();
+        drop.trailClock = 0;
+      }
+
+      if (drop.y > height + 16) resetDroplet(drop);
+    });
+
+    streams.forEach(stream => {
+      stream.age += delta;
+      stream.tipY += stream.speed * delta;
+      if (stream.tipY > height + 20) resetStream(stream);
+    });
+
+    draw();
+    animationFrame = window.requestAnimationFrame(animate);
+  }
+
+  function startAnimation() {
+    if (!prefersReducedMotion.matches && !document.hidden && !animationFrame) {
+      previousTime = 0;
+      animationFrame = window.requestAnimationFrame(animate);
+    }
+  }
+
+  window.addEventListener("resize", resizeCanvas);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+    } else {
+      startAnimation();
+    }
+  });
+  prefersReducedMotion.addEventListener("change", () => {
+    if (prefersReducedMotion.matches) {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+    } else {
+      startAnimation();
+    }
+  });
+
+  resizeCanvas();
+  startAnimation();
+}
+
+createBloodLayer();
+
+const flashlight = document.createElement("div");
+flashlight.className = "flashlight-overlay";
+document.body.appendChild(flashlight);
+
+function updateFlashlight(x, y) {
+  document.documentElement.style.setProperty("--mx", `${x}px`);
+  document.documentElement.style.setProperty("--my", `${y}px`);
+}
+
+window.addEventListener("pointermove", (event) => {
+  updateFlashlight(event.clientX, event.clientY);
+});
+
+window.addEventListener("pointerleave", () => {
+  updateFlashlight(window.innerWidth / 2, window.innerHeight / 2);
+});
+
+updateFlashlight(window.innerWidth / 2, window.innerHeight / 2);
 
 function createSakuraLayer() {
   const layer = document.createElement("div");
   layer.className = "sakura-layer";
   layer.setAttribute("aria-hidden", "true");
 
-  const petalCount = 22;
+  const halloweenIcons = ["🎃", "👻", "🕷️", "🕸️"];
+  const petalCount = 24;
+
   for (let i = 0; i < petalCount; i++) {
     const petal = document.createElement("span");
     petal.className = "sakura-petal";
+    petal.textContent = halloweenIcons[Math.floor(Math.random() * halloweenIcons.length)];
 
-    const size = (Math.random() * 12 + 10).toFixed(2);
+    const size = (Math.random() * 18 + 16).toFixed(2);
     const duration = (Math.random() * 10 + 10).toFixed(2);
     const delay = (Math.random() * -12).toFixed(2);
     const drift = (Math.random() * 70 - 35).toFixed(2);
     const driftEnd = (Math.random() * 70 - 35).toFixed(2);
 
     petal.style.setProperty("--size", `${size}px`);
+    petal.style.setProperty("--emoji-size", `${size}px`);
     petal.style.setProperty("--duration", `${duration}s`);
     petal.style.setProperty("--delay", `${delay}s`);
     petal.style.setProperty("--left", `${(Math.random() * 100).toFixed(2)}%`);
@@ -271,7 +527,111 @@ function applyLanguage(lang) {
     const expanded = galleryShell && galleryShell.classList.contains("expanded");
     galleryExpandBtn.innerHTML = dict[expanded ? "gallery.collapse" : "gallery.expand"];
   }
+
+  updateMusicToggleState(backgroundMusic && !backgroundMusic.paused);
 }
+
+function updateMusicToggleState(isPlaying) {
+  if (!musicToggle) return;
+
+  const dict = translations[document.documentElement.lang] || translations.uk;
+  musicToggle.setAttribute("aria-pressed", String(isPlaying));
+  musicToggle.setAttribute("aria-label", dict[isPlaying ? "music.toggleOff" : "music.toggleOn"]);
+}
+
+function setupBackgroundMusic() {
+  if (!backgroundMusic || !musicToggle) return;
+  backgroundMusic.volume = 0.4;
+
+  const removeGestureListeners = () => {
+    document.removeEventListener("pointerdown", startAfterGesture, true);
+    document.removeEventListener("keydown", startAfterGesture, true);
+  };
+
+  const tryPlayback = () => {
+    const playRequest = backgroundMusic.play();
+    if (playRequest) playRequest.catch(() => updateMusicToggleState(false));
+  };
+
+  function startAfterGesture(event) {
+    if (event.target instanceof Element && event.target.closest("#musicToggle")) return;
+    tryPlayback();
+  }
+
+  backgroundMusic.addEventListener("play", () => {
+    updateMusicToggleState(true);
+    removeGestureListeners();
+  });
+  backgroundMusic.addEventListener("pause", () => updateMusicToggleState(false));
+  musicToggle.addEventListener("click", () => {
+    if (backgroundMusic.paused) tryPlayback();
+    else backgroundMusic.pause();
+  });
+
+  document.addEventListener("pointerdown", startAfterGesture, true);
+  document.addEventListener("keydown", startAfterGesture, true);
+  tryPlayback();
+}
+
+setupBackgroundMusic();
+
+function createHalloweenClock() {
+  const clock = document.createElement("aside");
+  clock.className = "halloween-clock";
+  clock.setAttribute("role", "timer");
+  clock.setAttribute("aria-live", "off");
+  clock.innerHTML = `
+    <div class="clock-crown" aria-hidden="true"></div>
+    <div class="clock-dial">
+      <span class="clock-mark clock-mark-xii" aria-hidden="true">XII</span>
+      <span class="clock-mark clock-mark-iii" aria-hidden="true">III</span>
+      <span class="clock-mark clock-mark-vi" aria-hidden="true">VI</span>
+      <span class="clock-mark clock-mark-ix" aria-hidden="true">IX</span>
+      <span class="clock-face-label" data-i18n="clock.label">ДО ГЕЛОВІНУ</span>
+      <span class="clock-hand clock-hand-hour" aria-hidden="true"></span>
+      <span class="clock-hand clock-hand-minute" aria-hidden="true"></span>
+      <span class="clock-hand clock-hand-second" aria-hidden="true"></span>
+      <span class="clock-pin" aria-hidden="true"></span>
+      <span class="clock-countdown">
+        <span><b data-countdown="days">---</b><small data-i18n="clock.days">д</small></span>
+        <span><b data-countdown="hours">--</b><small data-i18n="clock.hours">г</small></span>
+        <span><b data-countdown="minutes">--</b><small data-i18n="clock.minutes">х</small></span>
+        <span><b data-countdown="seconds">--</b><small data-i18n="clock.seconds">с</small></span>
+      </span>
+    </div>
+    <div class="clock-case" aria-hidden="true">
+      <div class="clock-pendulum-window">
+        <div class="clock-pendulum"></div>
+      </div>
+    </div>
+    <div class="clock-base" aria-hidden="true"></div>
+  `;
+  document.body.appendChild(clock);
+
+  const fields = {
+    days: clock.querySelector('[data-countdown="days"]'),
+    hours: clock.querySelector('[data-countdown="hours"]'),
+    minutes: clock.querySelector('[data-countdown="minutes"]'),
+    seconds: clock.querySelector('[data-countdown="seconds"]')
+  };
+
+  function updateCountdown() {
+    const now = new Date();
+    let halloween = new Date(now.getFullYear(), 9, 31);
+    if (now >= halloween) halloween = new Date(now.getFullYear() + 1, 9, 31);
+
+    const remainingSeconds = Math.floor((halloween - now) / 1000);
+    fields.days.textContent = String(Math.floor(remainingSeconds / 86400)).padStart(3, "0");
+    fields.hours.textContent = String(Math.floor((remainingSeconds % 86400) / 3600)).padStart(2, "0");
+    fields.minutes.textContent = String(Math.floor((remainingSeconds % 3600) / 60)).padStart(2, "0");
+    fields.seconds.textContent = String(remainingSeconds % 60).padStart(2, "0");
+  }
+
+  updateCountdown();
+  window.setInterval(updateCountdown, 1000);
+}
+
+createHalloweenClock();
 
 langButtons.forEach(button => {
   button.addEventListener("click", () => applyLanguage(button.dataset.lang));
